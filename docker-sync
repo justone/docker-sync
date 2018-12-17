@@ -80,15 +80,15 @@ def main():
 				common_parent = get_common_parent(source_family,all_dest)
 				if common_parent:
 					print("Found common parent: %s"%common_parent[:20])
-					print("Dumping local parent".ljust(just_size,"."), end="", flush=True)
-					_, output = execute("docker save -o %s %s"%(file_name, common_parent))
+					print("Dumping common parent".ljust(just_size,"."), end="", flush=True)
+					_, output = execute("docker save -o %s %s"%(file_name, common_parent), ssh=dest)
 					check(output)
 				else:
 					print("Unable to find a common parent. Importing full image.")
 			else:
 				print("\n--> Updating '%s':\n"%name_tag)
 				print("Dumping dest image".ljust(just_size,"."), end="", flush=True)
-				_, output = execute("docker save -o %s %s"%(file_name, name_tag), ssh=source)
+				_, output = execute("docker save -o %s %s"%(file_name, name_tag), ssh=dest)
 				check(output)
 
 			print("Dumping source image".ljust(just_size,"."), end="", flush=True)
